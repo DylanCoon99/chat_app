@@ -31,8 +31,11 @@ func main() {
 
 	r := newRoom()
 
-	http.Handle("/", &templateHandler{filename: "chat.html"})
+	http.Handle("/", MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/room", r)
+	http.Handle("/login", &templateHandler{filename: "login.html"})
+	http.HandleFunc("/auth/", loginHandler)
+	
 
 	go r.run()
 
